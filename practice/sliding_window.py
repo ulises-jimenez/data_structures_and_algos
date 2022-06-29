@@ -1,7 +1,8 @@
+import math
 from typing import List
 
-subarray_example = [2, 3, 4, 1, 5]
-k = 2
+subarray_example = [2, 1, 5, 2, 3, 2]
+s = 7
 
 
 def find_max_subarray_sum_brute(subarray: List[int], subarray_len: int):
@@ -47,8 +48,35 @@ def find_max_subarray_optimized(subarray: List[int], subarray_len: int):
     print(current_max_sum, current_max_sequence)
 
 
+def find_shortest_subarray_larger_than_l(input_array: List[int], min_sum: int):
+    print(input_array)
+    correct_sum = math.inf
+    correct_subarray = []
+    starting_pointer = 0
+    current_sum = 0
+    for end_pointer in range(len(input_array)):
+        current_subarray = input_array[starting_pointer: end_pointer + 1]
+        current_sum += input_array[end_pointer]
+        while current_sum >= min_sum:
+            if correct_sum == math.inf:
+                correct_sum = current_sum
+                correct_subarray = current_subarray
+            elif len(current_subarray) < len(correct_subarray):
+                correct_sum = current_sum
+                correct_subarray = current_subarray
+            else:
+                pass
+            starting_pointer += 1
+            current_subarray = input_array[starting_pointer: end_pointer + 1]
+            current_sum -= input_array[starting_pointer - 1]
+    if correct_sum == math.inf:
+        print([], 0)
+    else:
+        print(correct_subarray, correct_sum)
+
+
 def main():
-    print('main')
+    find_shortest_subarray_larger_than_l(input_array=subarray_example, min_sum=s)
 
 
 if __name__ == '__main__':
